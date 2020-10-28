@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Cart.init({
-    quentity: DataTypes.INTEGER
+    
   }, {
     sequelize,
     modelName: 'Cart',
