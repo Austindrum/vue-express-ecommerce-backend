@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
         through: { model:models.OrderItem, unique:false },
         foreignKey: "OrderId"
       });
-      Oreder.belongsTo(models.User);
+      Order.belongsTo(models.User);
       Order.hasMany(models.Payment);
     }
   };

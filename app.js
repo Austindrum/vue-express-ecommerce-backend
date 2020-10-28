@@ -2,9 +2,11 @@ const express = require("express");
 const app = express();
 
 
-app.get('/', (req, res)=>{
-    res.send("<h1>Hello World</h1>");
-})
+
+
+
+
+require("./routes")(app);
 
 const PORT = 3000 || process.env.PORT;
 app.listen(PORT, ()=>{
