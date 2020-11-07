@@ -17,6 +17,15 @@ let cartController = {
                 })
             }
         }).catch(err => console.log(err))
+    },
+    postCart: (req, res) => {
+        try {
+            const cartId = req.session.cartId;
+            const productInfo = { ...req.body };
+            console.log(cartId, productInfo);
+        } catch (err) {
+            console.log(err)
+        }
     }
 }
 
