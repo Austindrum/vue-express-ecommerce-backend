@@ -3,6 +3,9 @@ const User = db.User;
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
+const imgur = require('imgur-node-api');
+const IMGUR_ID = process.env.IMGUR_ID;
+
 const adminController = {
     signup: async (req, res)=>{
         const data = {
@@ -26,6 +29,7 @@ const adminController = {
             password: bcrypt.hashSync(data.password, slat),
             address: "",
             tel: "",
+            avatar: "https://png.pngtree.com/png-clipart/20190619/original/pngtree-vector-avatar-icon-png-image_4013749.jpg",
             role: "user"
         }).then(()=>{
             return res.json({
@@ -68,6 +72,49 @@ const adminController = {
             token,
             user
         })
+    },
+    putUser: async (req, res) => {
+        try {
+            const userId = req.params.id;
+            const { file } = req;
+            const data = { ...req.body};
+            console.log(data);
+            if(file){
+                imgur.setClientID(IMGUR_ID);
+                imgur.upload(file.path, async (err, img)=>{
+                    if(err) return res.json({ status: "Error", message: "Warning" });
+                    try {
+                        const user = await User.findByPk(userId);
+                        await user.update({
+                            ...data,
+                            avatar: file ? img.data.link : user.image
+                        })
+                        return res.json({
+                            status: "success",
+                            message: "User Update Success"
+                        })
+                    } catch (err) {
+                        console.log(err);
+                    }
+                })
+            }else{
+                try {
+                    const user = await User.findByPk(userId);
+                    await user.update({
+                        ...data,
+                        avatar: user.avatar
+                    })
+                    return res.json({
+                        status: "success",
+                        message: "User Update Success"
+                    })   
+                } catch (err) {
+                    console.log(err);
+                }
+            }
+        } catch (err) {
+            console.log(err);
+        }
     }
 }
 

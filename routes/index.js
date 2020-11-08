@@ -1,3 +1,7 @@
+const multer = require("multer");
+const upload = multer({ dest: 'temp/' });
+
+
 const productController = require("../controllers/productController");
 const cartController = require("../controllers/cartController");
 const adminController = require("../controllers/adminController");
@@ -21,5 +25,7 @@ module.exports = (app) => {
 
     app.use(checkIsLogin);
     app.get("/get_current_user", userController.getCurrentUser);
+    // 
+    app.put("/admin/user/:id", upload.single('image'), adminController.putUser)
 
 };
