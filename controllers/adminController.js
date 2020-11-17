@@ -19,7 +19,7 @@ const HashIV = process.env.HashIV;
 const PayGateWay = "https://ccore.spgateway.com/MPG/mpg_gateway"
 const ReturnURL = URL+"/spgateway/callback?from=ReturnURL"
 const NotifyURL = URL+"/spgateway/callback?from=NotifyURL"
-const ClientBackURL = URL+"/orders"
+const ClientBackURL = "http://localhost:8080/#/products"
 
 function genDataChain(TradeInfo) {
     let results = [];
