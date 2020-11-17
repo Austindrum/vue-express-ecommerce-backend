@@ -1,6 +1,7 @@
 const db = require("../models");
 const Cart = db.Cart;
 const Product = db.Product;
+const CartItem = db.CartItem;
 
 let cartController = {
     getCart: (req, res) => {
@@ -18,11 +19,26 @@ let cartController = {
             }
         }).catch(err => console.log(err))
     },
-    postCart: (req, res) => {
+    postCart: async (req, res) => {
         try {
-            const cartId = req.session.cartId;
-            const productInfo = { ...req.body };
-            console.log(cartId, productInfo);
+            const items = req.body.cart;
+            const userId = req.body.user.id;
+            const newCart = await Cart.create({
+                UserId: userId,
+                ordered: false
+            });
+            await items.forEach(item => {
+                CartItem.create({
+                    CartId: newCart.id,
+                    ProductId: item.product.id,
+                    quantity: item.quantity,
+                    UserId: userId
+                })
+            });
+            return res.json({
+                status: "success",
+                message: "Cart Create Success"
+            })
         } catch (err) {
             console.log(err)
         }
