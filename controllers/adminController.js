@@ -12,7 +12,7 @@ const jwt = require("jsonwebtoken");
 const imgur = require('imgur-node-api');
 const IMGUR_ID = process.env.IMGUR_ID;
 
-const URL = 'https://intense-caverns-74208.herokuapp.com/'
+const URL = 'https://intense-caverns-74208.herokuapp.com'
 const MerchantID = process.env.MerchantID;
 const HashKey = process.env.HashKey;
 const HashIV = process.env.HashIV;
